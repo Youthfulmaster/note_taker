@@ -1,6 +1,6 @@
 const express = require('express');
-const routes = require('./routes'); // Import routes module
-const { v4: uuidv4 } = require('uuid'); // For generating unique ids
+const path = require('path'); // Require the path module
+const routes = require(path.join(__dirname, 'routes', 'apiRoutes')); // Adjusted require statement
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,8 +10,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public')); // Serve static files
 
-// Use routes defined in routes.js
-app.use('/routes', routes);
+// Use routes defined in apiRoutes.js
+app.use('/api', routes);
+
+// GET Route for homepage
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
+
+// GET Route for notes page
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/notes.html'));
+});
 
 // Listener
 app.listen(PORT, () => {
