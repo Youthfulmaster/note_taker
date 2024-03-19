@@ -19,12 +19,12 @@ router.get('/notes', (req, res) => {
 // API POST Request
 router.post('/notes', (req, res) => {
   const newNote = { ...req.body, id: uuidv4() };
-
+ console.log(newNote)
   fs.readFile(dbFilePath, 'utf8', (err, data) => {
     if (err) throw err;
     const notes = JSON.parse(data);
     notes.push(newNote);
-
+console.log(notes)
     fs.writeFile(dbFilePath, JSON.stringify(notes, null, 2), (err) => {
       if (err) throw err;
       res.json(newNote);
